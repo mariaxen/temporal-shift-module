@@ -5,8 +5,7 @@
 
 import os
 
-ROOT_DATASET = '/ssd/video/'  # '/data/jilin/'
-
+ROOT_DATASET = '/home/mxenoc_stanford_edu/viva/dataset/tsm_videos_respiratory_distress'
 
 def return_ucf101(modality):
     filename_categories = 'UCF101/labels/classInd.txt'
@@ -77,6 +76,18 @@ def return_somethingv2(modality):
     return filename_categories, filename_imglist_train, filename_imglist_val, root_data, prefix
 
 
+def return_viva(modality):
+    if modality == 'RGB':
+        root_data = ROOT_DATASET
+        filename_imglist_train = 'train-labels.txt'
+        filename_imglist_val = 'val-labels.txt'
+        filename_categories = 'category.txt'
+        prefix = '{:06d}.jpg'
+    else:
+        raise NotImplementedError('no such modality:'+modality)
+    return filename_categories, filename_imglist_train, filename_imglist_val, root_data, prefix
+
+
 def return_jester(modality):
     filename_categories = 'jester/category.txt'
     if modality == 'RGB':
@@ -104,7 +115,7 @@ def return_kinetics(modality):
 def return_dataset(dataset, modality):
     dict_single = {'jester': return_jester, 'something': return_something, 'somethingv2': return_somethingv2,
                    'ucf101': return_ucf101, 'hmdb51': return_hmdb51,
-                   'kinetics': return_kinetics }
+                   'kinetics': return_kinetics, 'viva': return_viva }
     if dataset in dict_single:
         file_categories, file_imglist_train, file_imglist_val, root_data, prefix = dict_single[dataset](modality)
     else:
